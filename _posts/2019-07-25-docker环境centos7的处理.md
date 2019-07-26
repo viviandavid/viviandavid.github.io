@@ -42,6 +42,8 @@ centos7镜像安装好以后，默认ens33网卡是不开启的。
 开启端口
 > firewall-cmd --zone=public --add-port=80/tcp --permanent
 
+> firewall-cmd --permanent --add-port={9000/tcp,9000/udp}
+
  命令含义：
 --zone #作用域
 --add-port=80/tcp #添加端口，格式为：端口/通讯协议
