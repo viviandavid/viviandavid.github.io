@@ -67,16 +67,3 @@ ables中添加转发的规则。它会创建一个filter chain - DOCKER。
 在实际使用过程中，没有使用iptables.service，docker的端口转发也是正常的，因为iptables一直都在。docker会创建自己的iptables链，如果firewalld重启，docker创建的链也需要重新创建。
 因此，如果使用firewalld，需要先启用firewalld，再启动docker。 如果你先启动docker，再启用firewalld，或者重启
 firewalld，都需要重启Docker进程。
-
-
-yum git 
-
-yum install -y git
-一般git默认安装路径有两个 ：/usr/share/git-core或者/usr/local/git
-安装好git后记得在/etc/profile里面最后加上一行如下语句，即将git的安装目录配置到环境变量中
-export PATH=$PATH:/usr/share/git-core
-修改profile后 执行
-source /etc/profile
-git --version
-删除git
-yum remove git
