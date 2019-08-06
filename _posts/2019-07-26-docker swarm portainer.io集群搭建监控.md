@@ -62,6 +62,56 @@ UDP port 4789 为网络间流量
 
 至此，swarm集群已经搭建完成。
 
+### 集群Label管理
+当节点配置多个服务时，这些服务会以service或者stack的形式部署到集群，默认情况下会进行随机分配到各个节点。有的时候，我们需要把同样的类型都部署到一个节点，更合理地使用服务器资源。这个时候，标签就起了很大的作用，不同的节点可以有相同的标签，通过标签后，服务只会存在于该节点之上。  
+> docker node ls
+
+查看节点列表（抱歉，我前面没有修改主机名）
+
+添加标签
+
+> docker node update --label-add role=web node1
+
+role="主机名" node1 为节点的主机名
+
+查看标签
+
+> docker node inspect node1
+
+删除标签
+
+> docker node update --label-rm role node1
+
+### 集群网络设置
+安装的各种服务，如果不在同一个网络下面，就会出现ping不同的状况。ping不同的话，就不要谈通信了。因此通过建立一个子网，把他们都放在同一个网络下面，这样不用担心通信的问题了。
+查看当前的网络有哪些：
+> docker network ls
+
+创建网络
+> docker network create  自定义network名
+或者指定ip字段
+> docker network create -d overlay --subnet=172.28.0.0/16 --ip-range=172.28.5.0/24 --gateway=172.28.5.254 avatar-net
+
+删除网络
+> docker network rm 自定义networkID
+
+加入网络
+建议通过compose.yml文件来进行网络的配置和添加  
+```
+    networks:
+      myself-net:
+        aliases:
+          - daa-test-net
+```
+```
+networks:
+  myself-net:
+    external:
+      name: myself-net
+```
+可以参考docker的官网文档说明
+
+
 ### Portainer.io
 portainer是DockerUI的另一个轮子（https://github.com/portainer/portainer）支持docker自带的swarm容器编排，及容器、volumes、images的管理和操作权限设置。
 教程非常多，这里就不多做介绍。
