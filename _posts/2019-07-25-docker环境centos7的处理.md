@@ -67,3 +67,17 @@ ables中添加转发的规则。它会创建一个filter chain - DOCKER。
 在实际使用过程中，没有使用iptables.service，docker的端口转发也是正常的，因为iptables一直都在。docker会创建自己的iptables链，如果firewalld重启，docker创建的链也需要重新创建。
 因此，如果使用firewalld，需要先启用firewalld，再启动docker。 如果你先启动docker，再启用firewalld，或者重启
 firewalld，都需要重启Docker进程。
+
+#### 查看linux是32位，64位
+> file /bin/ls
+或者
+> file /sbin/init
+
+如果 /bin/ls: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs)...... 则为64位
+
+如果 32-bit 则为32位。
+
+或者：
+> getconf LONG_BIT
+
+结果就是位数。
